@@ -11,6 +11,5 @@ public class PostagemController {
 
 	
 	@Autowired
-	private PostagemRepository postagemRepository;
-	// criar service antes do controller
+	
 }
