@@ -31,7 +31,7 @@ public class Postagem {
     @JoinColumn(name = "autor_id")
     private Usuario autor;
 
-    @OneToMany(mappedBy = "postagens")
+    @OneToMany(mappedBy = "postagem")
     private List<Comentario> comentarios;
 
 	public Postagem() {

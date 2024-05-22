@@ -28,7 +28,7 @@ public class Comentario {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_postagem")
-    private Postagem postagens;
+    private Postagem postagem;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -36,12 +36,12 @@ public class Comentario {
 
 	
 
-	public Comentario(Long id, String texto, Date dataCriacao, Postagem postagens, Usuario autor) {
+	public Comentario(Long id, String texto, Date dataCriacao, Postagem postagem, Usuario autor) {
 		super();
 		this.id = id;
 		this.texto = texto;
 		this.dataCriacao = dataCriacao;
-		this.postagens = postagens;
+		this.postagem = postagem;
 		this.autor = autor;
 	}
 
@@ -86,12 +86,12 @@ public class Comentario {
 		return Objects.equals(id, other.id);
 	}
 
-	public Postagem getPostagens() {
-		return postagens;
+	public Postagem getpostagem() {
+		return postagem;
 	}
 
-	public void setPostagens(Postagem postagens) {
-		this.postagens = postagens;
+	public void setpostagem(Postagem postagem) {
+		this.postagem = postagem;
 	}
 
 	public Usuario getAutor() {
