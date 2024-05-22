@@ -4,43 +4,74 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "usuario")
 public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario")
+	@Schema(description = "Identificador unico de usuario")
 	private Long id;
 	
-	@Column
+	@NotBlank(message = "Preencha o nome do usuario")
+	@Size(max = 30, message = "Tamanho máximo de {max} caracteres")
+	@Column(nullable = false, length = 30)
+	@Schema(description = "Nome do usuario")
 	private String nome;
 	
-	@Column
+	@NotBlank(message = "Preencha o sobrenome do usuario")
+	@Size(max = 30, message = "Tamanho máximo de {max} caracteres")
+	@Column(nullable = false, length = 30)
+	@Schema(description = "Sobrenome do usuario")
 	private String sobrenome;
 
-	@Column
+	@Email
+	@NotBlank(message = "Preencha o email do usuario")
+	@Size(max = 40, message = "Tamanho máximo de {max} caracteres")
+	@Column(nullable = false, length = 40)
+	@Schema(description = "Email do usuario")
 	private String email;
 
-	@Column
+	@NotBlank(message = "Preencha a senha do usuario")
+	@Column(nullable = false)
+	@Schema(description = "Email do usuario")
 	private String senha;
 	
-	@Column
+	@Column(name = "data_nascimento")
+	@Temporal(TemporalType.DATE)
+	@Schema(description = "Data de nascimento do usuario")
 	private Date dataNasc;
 	
 	@OneToMany(mappedBy = "autor")
+	@JsonManagedReference
+	@Schema(description = "Postagens relacionadas")
     private List<Postagem> postagens;
 
     @OneToMany(mappedBy = "id.seguidor")
+    @JsonManagedReference
+    @Schema(description = "Seguidores relacionadas")
     private List<Relacionamento> seguidores;
 
     @OneToMany(mappedBy = "id.seguindo")
+    @JsonManagedReference
+    @Schema(description = "Usuarios seguindo")
     private List<Relacionamento> seguindos;
 
     

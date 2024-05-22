@@ -3,6 +3,7 @@ package org.serratec.backend.grupo2.model;
 import java.util.Date;
 import java.util.Objects;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,29 +12,45 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "comentario")
 public class Comentario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_comentario")
+	@Schema(description = "Identificador unico de comentario")
 	private Long id;
 	
-	@Column
+	@NotBlank(message = "Texto não pode ser vazio")
+	@Size(max = 300, message = "Tamanho máximo de {max} caracteres")
+	@Column(nullable = false, length = 300)
+	@Schema(description = "Texto do comentario")
 	private String texto;
 	
-	@Column
+	@Column(name = "data_criacao")
+	@Schema(description = "Data de criação do comentario")
+	@Temporal(TemporalType.DATE)
 	private Date dataCriacao;
 	
+	@NotNull(message = "Postagem não pode ser vazia!")
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_postagem")
+	@Schema(description = "Postagens relacionadas")
     private Postagem postagem;
 
+	@NotNull(message = "Autor não pode ser vazio!")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
+    @Schema(description = "Autor do comentario")
     private Usuario autor;
-
 	
 
 	public Comentario(Long id, String texto, Date dataCriacao, Postagem postagem, Usuario autor) {
