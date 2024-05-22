@@ -16,7 +16,7 @@ public class RelacionamentoPK implements Serializable {
 	private Usuario seguidor;
 
 	@ManyToOne
-	@JoinColumn(name = "followed_id")
+	@JoinColumn(name = "id_seguindo")
 	private Usuario seguindo;
 
 	public RelacionamentoPK() {
