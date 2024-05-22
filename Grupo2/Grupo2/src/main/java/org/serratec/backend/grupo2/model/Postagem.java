@@ -1,6 +1,7 @@
 package org.serratec.backend.grupo2.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -8,6 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Postagem {
@@ -22,12 +26,25 @@ public class Postagem {
 	
 	@Column
 	private Date dataCriacao;
+	
+	@ManyToOne
+    @JoinColumn(name = "autor_id")
+    private Usuario autor;
 
-	public Postagem(Long id, String conteudo, Date dataCriacao) {
+    @OneToMany(mappedBy = "postagem")
+    private List<Comentario> comentarios;
+
+	public Postagem() {
+		
+	}
+
+	public Postagem(Long id, String conteudo, Date dataCriacao, Usuario autor, List<Comentario> comentarios) {
 		super();
 		this.id = id;
 		this.conteudo = conteudo;
 		this.dataCriacao = dataCriacao;
+		this.autor = autor;
+		this.comentarios = comentarios;
 	}
 
 	public Long getId() {
@@ -54,6 +71,22 @@ public class Postagem {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public Usuario getAutor() {
+		return autor;
+	}
+
+	public void setAutor(Usuario autor) {
+		this.autor = autor;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -71,7 +104,5 @@ public class Postagem {
 		return Objects.equals(id, other.id);
 	}
 	
-	
-
 
 }
