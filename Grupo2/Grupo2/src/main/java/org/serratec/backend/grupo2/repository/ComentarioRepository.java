@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComentarioRepository  extends JpaRepository<Comentario, Long>{
 
-	Comentario findByAutor(String autor);
-	
-	Comentario findByPostagens(String postagens);
 }

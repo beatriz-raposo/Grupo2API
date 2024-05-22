@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
 public class Relacionamento {
 	
 	@EmbeddedId
-    private RelacionamentoPK id;
+    private RelacionamentoPK id = new RelacionamentoPK();
 	
 	@Column
 	private Date dataInicioSeguimento;
@@ -20,9 +20,10 @@ public class Relacionamento {
 	
 	}
 
-	public Relacionamento(RelacionamentoPK id, Date dataInicioSeguimento) {
+	public Relacionamento(Usuario seguidor, Usuario seguindo, Date dataInicioSeguimento) {
 		super();
-		this.id = id;
+		this.id.setSeguidor(seguidor);
+		this.id.setSeguindo(seguindo);
 		this.dataInicioSeguimento = dataInicioSeguimento;
 	}
 

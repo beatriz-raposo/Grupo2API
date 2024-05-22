@@ -37,10 +37,10 @@ public class Usuario {
 	@OneToMany(mappedBy = "autor")
     private List<Postagem> postagens;
 
-    @OneToMany(mappedBy = "seguidor")
+    @OneToMany(mappedBy = "id.seguidor")
     private List<Relacionamento> seguidores;
 
-    @OneToMany(mappedBy = "seguindo")
+    @OneToMany(mappedBy = "id.seguindo")
     private List<Relacionamento> seguindos;
 
     
