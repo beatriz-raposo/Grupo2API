@@ -9,17 +9,20 @@ public class ComentarioDTO {
 	private String texto;
 	
 	private Date dataCriacao;
+	
+	private Long idAutor;
 
 	public ComentarioDTO() {
 		super();
 		
 	}
 
-	public ComentarioDTO(Long id, String texto, Date dataCriacao) {
+	public ComentarioDTO(Long id, String texto, Date dataCriacao, Long idAutor) {
 		super();
 		this.id = id;
 		this.texto = texto;
 		this.dataCriacao = dataCriacao;
+		this.idAutor = idAutor;
 	}
 
 	public Long getId() {
@@ -45,6 +48,17 @@ public class ComentarioDTO {
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
+
+	public Long getIdAutor() {
+		return idAutor;
+	}
+
+	public void setIdAutor(Long idAutor) {
+		this.idAutor = idAutor;
+	}
+	
+	
+	
 	
 }
 	
