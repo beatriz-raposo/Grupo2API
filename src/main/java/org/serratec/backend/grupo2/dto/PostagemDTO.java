@@ -1,9 +1,8 @@
 package org.serratec.backend.grupo2.dto;
 
 import java.util.Date;
-import java.util.HashSet;
 
-import org.serratec.backend.grupo2.model.Usuario;
+import org.serratec.backend.grupo2.model.Postagem;
 
 
 public class PostagemDTO {
@@ -11,24 +10,26 @@ public class PostagemDTO {
 	private Long id;
 	
 	private String conteudo;
-	
-	private Usuario autor;
-	
+
 	private Date dataCriacao;
 
 	public PostagemDTO() {
 
 	}
 
-	public PostagemDTO(Long id, String conteudo, Usuario autor, Date dataCriacao) {
+	public PostagemDTO(Long id, String conteudo, Date dataCriacao) {
 		super();
 		this.id = id;
 		this.conteudo = conteudo;
-		this.autor = autor;
 		this.dataCriacao = dataCriacao;
 	}
 
 
+	public PostagemDTO(Postagem postagem) {
+		this.id = postagem.getId();
+		this.conteudo = postagem.getConteudo();
+		this.dataCriacao = postagem.getDataCriacao();
+	}
 
 	public Long getId() {
 		return id;
