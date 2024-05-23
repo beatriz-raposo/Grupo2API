@@ -73,4 +73,11 @@ public class UsuarioService {
 		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 		return usuarioDTO;
 	}
+	
+	
+	
+	
+	
+	
+	
 }
