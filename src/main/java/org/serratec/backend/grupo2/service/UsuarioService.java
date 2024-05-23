@@ -1,22 +1,15 @@
-package src.main.java.org.serratec.backend.grupo2.service;
+package org.serratec.backend.grupo2.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.serratec.backend.grupo2.config.MailConfig;
 import org.serratec.backend.grupo2.dto.UsuarioDTO;
-import org.serratec.backend.grupo2.dto.UsuarioInserirDTO;
-import org.serratec.backend.grupo2.exception.EmailException;
+import org.serratec.backend.grupo2.model.Usuario;
+import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import src.main.java.org.serratec.backend.grupo2.exception.SenhaException;
-import src.main.java.org.serratec.backend.grupo2.model.Usuario;
-import src.main.java.org.serratec.backend.grupo2.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
@@ -24,11 +17,11 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@Autowired
-	private BCryptPasswordEncoder encoder;
-	
-	@Autowired
-	private MailConfig mailConfig;
+//	@Autowired
+//	private BCryptPasswordEncoder encoder;
+//	
+//	@Autowired
+//	private MailConfig mailConfig;
 	
 	//metodo listar tudo
 	public List<UsuarioDTO> findAll() {
@@ -52,6 +45,27 @@ public class UsuarioService {
 		return usuarioOpt.get();
 	}
 	
-
+//	//metodo cadastrar usuario
+//	@Transactional
+//	public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws EmailException, SenhaException {
+//		if (!usuarioInserirDTO.getSenha().equalsIgnoreCase(usuarioInserirDTO.getConfirmaSenha())) {
+//			throw new SenhaException("Senha e Confirma Senha não são iguais");
+//		}
+//		Usuario usuarioBd = usuarioRepository.findByEmail(usuarioInserirDTO.getEmail());
+//		if (usuarioBd != null) {
+//			throw new EmailException("Email ja existente");
+//		}
+//		
+//		Usuario usuario = new Usuario();
+//		usuario.setNome(usuarioInserirDTO.getNome());
+//		usuario.setEmail(usuarioInserirDTO.getEmail());
+//		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
+//			
+//		usuario = usuarioRepository.save(usuario);
+//		
+//		mailConfig.sendEmail(usuario.getEmail(), "Cadastro de Usuario", usuario.toString());
+//		
+//		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
+//		return usuarioDTO;
+//	}
 }
-

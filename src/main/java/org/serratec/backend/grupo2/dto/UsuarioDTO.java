@@ -1,4 +1,4 @@
-package src.main.java.org.serratec.backend.grupo2.dto;
+package org.serratec.backend.grupo2.dto;
 
 import java.util.Date;
 
@@ -74,3 +74,4 @@ public class UsuarioDTO {
 	}
 	 
 }
+
