@@ -12,17 +12,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 
-	// Consulta com paginação
-	Page<Comentario> findByConteudoContaining(String texto, Pageable pageable);
-
-	// Consulta nativa
-	@Query(value = "SELECT * FROM postagem p WHERE p.autor_id = ?1", nativeQuery = true)
-	List<Comentario> findByAutorIdNative(Long autorId);
-
-	// Consulta JPQL
-	@Query("SELECT p FROM Postagem p WHERE p.autor.id = :autorId")
-	List<Comentario> findByAutorIdJPQL(Long autorId);
-
-	// Consulta Spring Data JPA
-	List<Comentario> findByAutorId(Long autorId);
+//	// Consulta com paginação
+//	Page<Comentario> findByConteudoContaining(String texto, Pageable pageable);
+//
+//	// Consulta nativa
+//	@Query(value = "SELECT * FROM postagem p WHERE p.autor_id = ?1", nativeQuery = true)
+//	List<Comentario> findByAutorIdNative(Long autorId);
+//
+//	// Consulta JPQL
+//	@Query("SELECT p FROM Postagem p WHERE p.autor.id = :autorId")
+//	List<Comentario> findByAutorIdJPQL(Long autorId);
+//
+//	// Consulta Spring Data JPA
+//	List<Comentario> findByAutorId(Long autorId);
 }

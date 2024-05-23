@@ -12,7 +12,6 @@ import org.serratec.backend.grupo2.model.Usuario;
 import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -23,8 +22,8 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@Autowired
-	private BCryptPasswordEncoder encoder;
+//	@Autowired
+//	private BCryptPasswordEncoder encoder;
 //	
 //	@Autowired
 //	private MailConfig mailConfig;
@@ -64,8 +63,10 @@ public class UsuarioService {
 		
 		Usuario usuario = new Usuario();
 		usuario.setNome(usuarioInserirDTO.getNome());
+		usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
 		usuario.setEmail(usuarioInserirDTO.getEmail());
-		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
+		usuario.setDataNasc(usuarioInserirDTO.getDataNasc());
+		usuario.setSenha(usuarioInserirDTO.getSenha());
 			
 		usuario = usuarioRepository.save(usuario);
 				

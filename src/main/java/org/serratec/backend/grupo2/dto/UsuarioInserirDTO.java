@@ -1,5 +1,7 @@
 package org.serratec.backend.grupo2.dto;
 
+import java.util.Date;
+
 public class UsuarioInserirDTO {
 
 	private String nome;
@@ -9,6 +11,10 @@ public class UsuarioInserirDTO {
 	private String senha;
 
 	private String confirmaSenha;
+	
+	private String sobrenome;
+	
+	private Date dataNasc;
 
 
 
@@ -42,6 +48,22 @@ public class UsuarioInserirDTO {
 
 	public void setConfirmaSenha(String confirmaSenha) {
 		this.confirmaSenha = confirmaSenha;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+
+	public Date getDataNasc() {
+		return dataNasc;
+	}
+
+	public void setDataNasc(Date dataNasc) {
+		this.dataNasc = dataNasc;
 	}
 
 

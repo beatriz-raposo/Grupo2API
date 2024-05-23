@@ -2,6 +2,8 @@ package org.serratec.backend.grupo2.dto;
 
 import java.util.Date;
 
+import org.serratec.backend.grupo2.model.Usuario;
+
 public class UsuarioDTO {
 	private Long id;
 	
@@ -25,7 +27,7 @@ public class UsuarioDTO {
 		this.dataNasc = dataNasc;
 	}
 	
-	public UsuarioDTO(org.serratec.backend.grupo2.model.Usuario usuario) {
+	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
