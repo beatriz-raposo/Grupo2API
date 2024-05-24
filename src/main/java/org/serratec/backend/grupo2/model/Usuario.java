@@ -1,9 +1,9 @@
 package org.serratec.backend.grupo2.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -71,7 +71,7 @@ public class Usuario implements UserDetails, Serializable {
 	@Column(name = "data_nascimento")
 	@Temporal(TemporalType.DATE)
 	@Schema(description = "Data de nascimento do usuario")
-	private Date dataNasc;
+	private LocalDate dataNasc;
 
 	@OneToMany(mappedBy = "autor")
 	@JsonManagedReference
@@ -95,7 +95,7 @@ public class Usuario implements UserDetails, Serializable {
 
 	}
 
-	public Usuario(Long id, String nome, String sobrenome, String email, String senha, Date dataNasc,
+	public Usuario(Long id, String nome, String sobrenome, String email, String senha, LocalDate dataNasc,
 			List<Postagem> postagens, List<Relacionamento> seguidores, List<Relacionamento> seguindos) {
 		super();
 		this.id = id;
@@ -149,11 +149,11 @@ public class Usuario implements UserDetails, Serializable {
 		this.senha = senha;
 	}
 
-	public Date getDataNasc() {
+	public LocalDate getDataNasc() {
 		return dataNasc;
 	}
 
-	public void setDataNasc(Date dataNasc) {
+	public void setDataNasc(LocalDate dataNasc) {
 		this.dataNasc = dataNasc;
 	}
 
