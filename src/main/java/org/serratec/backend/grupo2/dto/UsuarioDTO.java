@@ -1,6 +1,6 @@
 package org.serratec.backend.grupo2.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.serratec.backend.grupo2.model.Usuario;
 
@@ -13,12 +13,12 @@ public class UsuarioDTO {
 
 	private String email;
 	
-	private Date dataNasc;
+	private LocalDate dataNasc;
 
 	public UsuarioDTO() {
 	}
 
-	public UsuarioDTO(Long id, String nome, String sobrenome, String email, String senha, Date dataNasc) {
+	public UsuarioDTO(Long id, String nome, String sobrenome, String email, String senha, LocalDate dataNasc) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -67,11 +67,11 @@ public class UsuarioDTO {
 		this.email = email;
 	}
 
-	public Date getDataNasc() {
+	public LocalDate getDataNasc() {
 		return dataNasc;
 	}
 
-	public void setDataNasc(Date dataNasc) {
+	public void setDataNasc(LocalDate dataNasc) {
 		this.dataNasc = dataNasc;
 	}
 	 
