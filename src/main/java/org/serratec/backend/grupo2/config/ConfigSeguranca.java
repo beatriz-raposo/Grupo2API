@@ -36,11 +36,11 @@ public class ConfigSeguranca {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).cors((cors) -> cors.configurationSource(corsConfigurationSource()))
 				.httpBasic(Customizer.withDefaults()).authorizeHttpRequests(requests -> {
-					requests.requestMatchers(HttpMethod.GET, "/login", "usuarios/**", "/postagem/**", "/relacionamentos/**").permitAll();
+					requests.requestMatchers(HttpMethod.GET, "/login", "/usuarios", "usuarios/**", "/postagem/**", "/relacionamentos/**").permitAll();
 					requests.requestMatchers(HttpMethod.DELETE, "/login", "usuarios", "/postagem", "/relacionamentos").permitAll();
 					requests.requestMatchers(HttpMethod.PUT, "/login", "usuarios", "/postagem", "/relacionamentos").permitAll();
-					requests.requestMatchers(HttpMethod.POST, "/usuarios", "/postagem", "/relacionamentos").permitAll().anyRequest()
-							.authenticated();
+					requests.requestMatchers(HttpMethod.POST, "/usuarios", "/postagem", "/relacionamentos").permitAll();
+							
 				}).sessionManagement(session -> {
 					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 				});

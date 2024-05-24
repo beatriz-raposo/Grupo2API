@@ -1,18 +1,13 @@
 package org.serratec.backend.grupo2.service;
 
-import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.serratec.backend.grupo2.dto.UsuarioDTO;
 import org.serratec.backend.grupo2.dto.UsuarioInserirDTO;
 import org.serratec.backend.grupo2.exception.EmailException;
 import org.serratec.backend.grupo2.exception.SenhaException;
-import org.serratec.backend.grupo2.model.Perfil;
 import org.serratec.backend.grupo2.model.Usuario;
-import org.serratec.backend.grupo2.model.UsuarioPerfil;
 import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -24,8 +19,6 @@ import jakarta.transaction.Transactional;
 @Service
 public class UsuarioService {
 
-	@Autowired
-	private PerfilService perfilService;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -72,14 +65,6 @@ public class UsuarioService {
 		usuario.setDataNasc(usuarioInserirDTO.getDataNasc());
 		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
 		
-		Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
-		for(Perfil perfil: usuarioInserirDTO.getPerfis()) {
-			perfil = perfilService.buscar(perfil.getId());
-			UsuarioPerfil usuarioPerfil = new UsuarioPerfil(usuario, perfil, LocalDate.now());
-			usuarioPerfis.add(usuarioPerfil);
-		}
-		
-		usuario.setUsuarioPerfis(usuarioPerfis);
 		usuario = usuarioRepository.save(usuario);
 				
 		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);

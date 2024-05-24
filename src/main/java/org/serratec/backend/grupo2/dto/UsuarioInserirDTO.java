@@ -1,9 +1,6 @@
 package org.serratec.backend.grupo2.dto;
 
 import java.time.LocalDate;
-import java.util.Set;
-
-import org.serratec.backend.grupo2.model.Perfil;
 
 public class UsuarioInserirDTO {
 
@@ -19,7 +16,6 @@ public class UsuarioInserirDTO {
 	
 	private LocalDate dataNasc;
 
-	private Set<Perfil> perfis;
 
 	public String getNome() {
 		return nome;
@@ -69,11 +65,4 @@ public class UsuarioInserirDTO {
 		this.dataNasc = dataNasc;
 	}
 
-	public Set<Perfil> getPerfis() {
-		return perfis;
-	}
-
-	public void setPerfis(Set<Perfil> perfis) {
-		this.perfis = perfis;
-	}
 }
