@@ -1,11 +1,15 @@
 package org.serratec.backend.grupo2.service;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.PostagemDTO;
+import org.serratec.backend.grupo2.exception.NotFoundException;
 import org.serratec.backend.grupo2.model.Postagem;
+import org.serratec.backend.grupo2.model.Usuario;
 import org.serratec.backend.grupo2.repository.PostagemRepository;
+import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,31 +19,58 @@ public class PostagemService {
 	@Autowired
 	private PostagemRepository postagemRepository;
 	
-	public List<Postagem> findAll(){
-		return postagemRepository.findAll();
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	public List<PostagemDTO> findAll(){
+		List<Postagem> postagens = postagemRepository.findAll();
+		
+		List<PostagemDTO> postagemDTO = new ArrayList<>();
+		
+		for (Postagem postagem: postagens) {
+			PostagemDTO posDTO = new PostagemDTO(postagem);
+			postagemDTO.add(posDTO);
+		}
+		return postagemDTO;
 	}
 
-    public Optional<Postagem> findById(Long id) {
-        return postagemRepository.findById(id);
-    }
+    public Postagem findById(Long id) throws NotFoundException {
+        Optional<Postagem> postagemOpt = postagemRepository.findById(id);
+        if (postagemOpt.isEmpty()) {
+        	throw new NotFoundException();
+        }
+        return postagemOpt.get();
+        }
 
-    public Postagem save(Postagem postagem) {
-        postagem.setDataCriacao(new Date());
-        return postagemRepository.save(postagem);
+    public PostagemDTO inserir(PostagemDTO postagemdto) throws NotFoundException {
+    	Optional<Usuario> byId = usuarioRepository.findById(postagemdto.getIdUsuario());
+    	if (byId.isEmpty()) {
+    		throw new NotFoundException();
+    	}
+    	Postagem postagem = new Postagem();
+    	postagem.setConteudo(postagemdto.getConteudo());
+    	postagem.setDataCriacao(postagemdto.getDataCriacao());
+    	postagem.setAutor(byId.get());
+        postagem = postagemRepository.save(postagem);
+        PostagemDTO postagemDTO = new PostagemDTO(postagem);
+        return postagemDTO;
     }
     
-    public Postagem update(Long id, Postagem postagem) {
-        if (postagemRepository.existsById(id)) {
-            postagem.setId(id);
-            return postagemRepository.save(postagem); 
+    public PostagemDTO update(Long id, PostagemDTO postagemdto) {
+    	Optional<Postagem> postagemOpt = postagemRepository.findById(id);
+    	if (postagemOpt.isPresent()) {
+    		Postagem postagem = postagemOpt.get();
+    		postagem.setConteudo(postagemdto.getConteudo());
+    		postagem = postagemRepository.save(postagem);
+    		return new PostagemDTO(postagem);
         } else {
-            return null;
+            throw new NotFoundException();
         }
     }
     
     public void deleteById(Long id) {
         postagemRepository.deleteById(id);
     }
-    
+ 
 
 }

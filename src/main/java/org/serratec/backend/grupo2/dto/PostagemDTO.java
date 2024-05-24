@@ -12,6 +12,8 @@ public class PostagemDTO {
 	private String conteudo;
 
 	private Date dataCriacao;
+	
+	private Long idUsuario;
 
 	public PostagemDTO() {
 
@@ -29,6 +31,15 @@ public class PostagemDTO {
 		this.id = postagem.getId();
 		this.conteudo = postagem.getConteudo();
 		this.dataCriacao = postagem.getDataCriacao();
+		this.idUsuario = postagem.getAutor().getId();
+	}
+
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public Long getId() {
