@@ -1,6 +1,6 @@
 package org.serratec.backend.grupo2.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Set;
 
 import org.serratec.backend.grupo2.model.Perfil;
@@ -17,7 +17,7 @@ public class UsuarioInserirDTO {
 	
 	private String sobrenome;
 	
-	private Date dataNasc;
+	private LocalDate dataNasc;
 
 	private Set<Perfil> perfis;
 
@@ -61,11 +61,11 @@ public class UsuarioInserirDTO {
 		this.sobrenome = sobrenome;
 	}
 
-	public Date getDataNasc() {
+	public LocalDate getDataNasc() {
 		return dataNasc;
 	}
 
-	public void setDataNasc(Date dataNasc) {
+	public void setDataNasc(LocalDate dataNasc) {
 		this.dataNasc = dataNasc;
 	}
 

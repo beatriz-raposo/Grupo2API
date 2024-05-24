@@ -11,16 +11,22 @@ import org.serratec.backend.grupo2.model.Usuario;
 import org.serratec.backend.grupo2.repository.PostagemRepository;
 import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service    
 public class PostagemService {
 
 	@Autowired
-	private PostagemRepository postagemRepository;
+	private PostagemRepository postagemRepository;	
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	public Page<Postagem> findPaginated(int page, int size) {
+        return postagemRepository.findAll(PageRequest.of(page, size));
+    }
 	
 	public List<PostagemDTO> findAll(){
 		List<Postagem> postagens = postagemRepository.findAll();

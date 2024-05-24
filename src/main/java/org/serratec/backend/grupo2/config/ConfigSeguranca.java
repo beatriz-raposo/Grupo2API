@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,11 +36,10 @@ public class ConfigSeguranca {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).cors((cors) -> cors.configurationSource(corsConfigurationSource()))
 				.httpBasic(Customizer.withDefaults()).authorizeHttpRequests(requests -> {
-					requests.requestMatchers(HttpMethod.GET, "/login").permitAll();
-					requests.requestMatchers(HttpMethod.GET, "/usuarios").permitAll();
-					requests.requestMatchers(HttpMethod.GET, "/postagem").permitAll();
-					requests.requestMatchers(HttpMethod.GET, "/relacionamentos").permitAll();
-					requests.requestMatchers(HttpMethod.POST, "/usuarios").permitAll().anyRequest()
+					requests.requestMatchers(HttpMethod.GET, "/login", "usuarios/**", "/postagem/**", "/relacionamentos/**").permitAll();
+					requests.requestMatchers(HttpMethod.DELETE, "/login", "usuarios", "/postagem", "/relacionamentos").permitAll();
+					requests.requestMatchers(HttpMethod.PUT, "/login", "usuarios", "/postagem", "/relacionamentos").permitAll();
+					requests.requestMatchers(HttpMethod.POST, "/usuarios", "/postagem", "/relacionamentos").permitAll().anyRequest()
 							.authenticated();
 				}).sessionManagement(session -> {
 					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
