@@ -88,9 +88,6 @@ public class Usuario implements UserDetails, Serializable {
 	@Schema(description = "Usuarios seguindo")
 	private List<Relacionamento> seguindos;
 
-	@OneToMany(mappedBy = "id.usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
-
 	public Usuario() {
 
 	}
@@ -181,14 +178,6 @@ public class Usuario implements UserDetails, Serializable {
 		this.seguindos = seguindos;
 	}
 
-	public Set<UsuarioPerfil> getUsuarioPerfis() {
-		return usuarioPerfis;
-	}
-
-	public void setUsuarioPerfis(Set<UsuarioPerfil> usuarioPerfis) {
-		this.usuarioPerfis = usuarioPerfis;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -209,10 +198,7 @@ public class Usuario implements UserDetails, Serializable {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (UsuarioPerfil usuarioPerfil : getUsuarioPerfis()) {
-			authorities.add(new SimpleGrantedAuthority(usuarioPerfil.getId().getPerfil().getNome()));
-		}
-
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		return authorities;
 	}
 
@@ -248,7 +234,7 @@ public class Usuario implements UserDetails, Serializable {
 
 	@Override
 	public String toString() {
-		return "* Código: " + id + "\n* Nome: " + nome + "\n* Email: " + email + "\n* Perfis: "
-				+ usuarioPerfis.stream().map(up -> up.getId().getPerfil().getNome()).collect(Collectors.joining(", "));
+		return "* Código: " + id + "\n* Nome: " + nome + "\n* Email: " + email + "\n* Seguidores: "
+				+ seguidores.stream().map(up -> up.getId().getSeguidor().getNome()).collect(Collectors.joining(", "));
 	}
 }
