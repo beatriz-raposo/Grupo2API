@@ -5,9 +5,12 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.AssociationOverride;
+import jakarta.persistence.AssociationOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -19,7 +22,7 @@ public class Relacionamento {
 	
 	@EmbeddedId
 	@JsonBackReference
-    private RelacionamentoPK id = new RelacionamentoPK();
+    private RelacionamentoPK id;
 	
 	@Column(name = "data_inicio_seguimento")
 	@Temporal(TemporalType.DATE)
@@ -30,10 +33,8 @@ public class Relacionamento {
 	
 	}
 
-	public Relacionamento(Usuario seguidor, Usuario seguindo, Date dataInicioSeguimento) {
-		super();
-		this.id.setSeguidor(seguidor);
-		this.id.setSeguindo(seguindo);
+	public Relacionamento(RelacionamentoPK id, Date dataInicioSeguimento) {
+		this.id = id;
 		this.dataInicioSeguimento = dataInicioSeguimento;
 	}
 
@@ -51,6 +52,14 @@ public class Relacionamento {
 
 	public void setDataInicioSeguimento(Date dataInicioSeguimento) {
 		this.dataInicioSeguimento = dataInicioSeguimento;
+	}
+
+	public void setSeguidor(Usuario seguidor) {
+		this.id.setSeguidor(seguidor);
+	}
+	
+	public void setSeguindo(Usuario seguindo) {
+		this.id.setSeguidor(seguindo);
 	}
 
 }

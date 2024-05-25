@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
@@ -12,17 +13,17 @@ public class RelacionamentoPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_seguidor")
 	private Usuario seguidor;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_seguindo")
 	private Usuario seguindo;
 
 	public RelacionamentoPK() {
 	}
-
+	
 	public RelacionamentoPK(Usuario seguidor, Usuario seguindo) {
 		super();
 		this.seguidor = seguidor;

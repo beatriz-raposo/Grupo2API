@@ -1,9 +1,9 @@
 package org.serratec.backend.grupo2.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.RelacionamentoDTO;
 import org.serratec.backend.grupo2.model.Relacionamento;
 import org.serratec.backend.grupo2.model.RelacionamentoPK;
 import org.serratec.backend.grupo2.model.Usuario;
@@ -31,11 +31,10 @@ public class RelacionamentoController {
     
     @Autowired
     private UsuarioService usuarioService;
-
-
+    
     @GetMapping
-    public List<Relacionamento> getAllRelacionamentos() {
-        return relacionamentoService.findAll();
+    public ResponseEntity<List<RelacionamentoDTO>> getAllRelacionamentos() {
+        return ResponseEntity.ok(relacionamentoService.findAll());
     }
 
     @GetMapping("/{seguidorId}/{seguindoId}")
@@ -49,12 +48,13 @@ public class RelacionamentoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+    
     @PostMapping
-    public ResponseEntity<Relacionamento> createRelacionamento(@RequestBody Relacionamento relacionamento) {
-        relacionamento.setDataInicioSeguimento(new Date());  
-        Relacionamento createdRelacionamento = relacionamentoService.save(relacionamento);
-        return new ResponseEntity<>(createdRelacionamento, HttpStatus.CREATED);
+    public ResponseEntity<RelacionamentoDTO> createRelacionamento(@RequestBody RelacionamentoDTO relacionamento) throws NotFoundException {
+		Usuario seguidor = usuarioService.findById(relacionamento.getSeguidorId());
+		Usuario seguindo = usuarioService.findById(relacionamento.getSeguindoId());
+        relacionamentoService.inserir(seguidor, seguindo, relacionamento.getDataInicioSeguimento());
+        return ResponseEntity.ok(relacionamento);
     }
 
     @PutMapping("/{seguidorId}/{seguindoId}")
