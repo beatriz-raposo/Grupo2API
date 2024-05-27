@@ -19,13 +19,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private JwtUtil jwtUtil;
 	private UserDetailsService userDetailsService;
-	
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil,
+			UserDetailsService userDetailsService) {
 		super(authenticationManager);
 		this.jwtUtil = jwtUtil;
 		this.userDetailsService = userDetailsService;
 	}
-	
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -38,7 +39,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		}
 		chain.doFilter(request, response);
 	}
-	
+
 	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
 		if (jwtUtil.isValidToken(token)) {
 			String username = jwtUtil.getUserName(token);
@@ -47,5 +48,5 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		}
 		return null;
 	}
-	
+
 }
