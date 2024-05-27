@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/comentarios")
 public class ComentarioController {
@@ -51,7 +53,7 @@ public class ComentarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ComentarioDTO> inserir(@RequestBody ComentarioDTO comentario) throws NotFoundException {
+	public ResponseEntity<ComentarioDTO> inserir(@Valid @RequestBody ComentarioDTO comentario) throws NotFoundException {
 		Usuario autor = usuarioService.findById(comentario.getAutorId());
 		Postagem postagem = postagemService.findById(comentario.getPostagemId());
 		usuarioService.findById(comentario.getAutorId());

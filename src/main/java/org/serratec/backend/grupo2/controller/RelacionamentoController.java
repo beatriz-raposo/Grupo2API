@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/relacionamentos")
 public class RelacionamentoController {
@@ -50,7 +52,7 @@ public class RelacionamentoController {
     }
     
     @PostMapping
-    public ResponseEntity<RelacionamentoDTO> createRelacionamento(@RequestBody RelacionamentoDTO relacionamento) throws NotFoundException {
+    public ResponseEntity<RelacionamentoDTO> createRelacionamento(@Valid @RequestBody RelacionamentoDTO relacionamento) throws NotFoundException {
 		Usuario seguidor = usuarioService.findById(relacionamento.getSeguidorId());
 		Usuario seguindo = usuarioService.findById(relacionamento.getSeguindoId());
         relacionamentoService.inserir(seguidor, seguindo, relacionamento.getDataInicioSeguimento());

@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 import org.serratec.backend.grupo2.model.Usuario;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class UsuarioDTO {
 	private Long id;
 	

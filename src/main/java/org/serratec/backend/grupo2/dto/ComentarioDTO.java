@@ -4,11 +4,27 @@ import java.util.Date;
 
 import org.serratec.backend.grupo2.model.Comentario;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class ComentarioDTO {
 	
+	@NotBlank(message = "Postagem não pode ser vazia!")
+	@Schema(description = "Postagens relacionadas")
 	private Long postagemId;
+	
+	@NotBlank(message = "Autor não pode ser vazio!")
+	@Schema(description = "Autor do comentario")
 	private Long autorId;
+	
+	@NotBlank(message = "Texto não pode ser vazio")
+	@Size(max = 300, message = "Tamanho máximo de {max} caracteres")
+	@Schema(description = "Texto do comentario")
 	private String texto;
+	
+	@NotBlank(message = "Data de criação não pode ser vazio")
+	@Schema(description = "Data de criação do comentario")
 	private Date dataCriacao;
 	
 	public ComentarioDTO(Long postagemId, Long autorId, String texto, Date dataCriacao) {

@@ -4,15 +4,26 @@ import java.util.Date;
 
 import org.serratec.backend.grupo2.model.Postagem;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 
 public class PostagemDTO {
 	
+	@Schema(description = "Identificador unico de postagem")
 	private Long id;
 	
+	@NotBlank(message = "Conteudo não pode ser vazio")
+	@Size(max = 300, message = "Tamanho máximo de {max} caracteres")
+	@Schema(description = "Conteudo da postagem")
 	private String conteudo;
 
+	@Schema(description = "Data de criação da postagem")
 	private Date dataCriacao;
 	
+	@NotBlank(message = "Autor não pode ser vazio!")
+	@Schema(description = "Autor da postagem")
 	private Long idUsuario;
 
 	public PostagemDTO() {

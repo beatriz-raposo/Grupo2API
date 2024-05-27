@@ -4,12 +4,19 @@ import java.util.Date;
 
 import org.serratec.backend.grupo2.model.Relacionamento;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+
 public class RelacionamentoDTO {
 
+	@NotBlank(message = "Id do seguidor não pode ser vazio!")
 	private Long seguidorId;
 	
+	@NotBlank(message = "Id do seguindo não pode ser vazio!")
 	private Long seguindoId;
 	
+	@NotBlank(message = "Data do seguimento não pode ser vazio!")
+	@Schema(description = "Data inicial de seguimento")
 	private Date dataInicioSeguimento;
 
 	public RelacionamentoDTO(Long seguidorId, Long seguindoId, Date dataInicioSeguimento) {
