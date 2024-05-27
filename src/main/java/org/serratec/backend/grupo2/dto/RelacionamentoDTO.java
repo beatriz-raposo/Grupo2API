@@ -6,13 +6,14 @@ import org.serratec.backend.grupo2.model.Relacionamento;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class RelacionamentoDTO {
 
-	@NotBlank(message = "Id do seguidor não pode ser vazio!")
+	@NotNull(message = "Id do seguidor não pode ser vazio!")
 	private Long seguidorId;
 	
-	@NotBlank(message = "Id do seguindo não pode ser vazio!")
+	@NotNull(message = "Id do seguindo não pode ser vazio!")
 	private Long seguindoId;
 	
 	@NotBlank(message = "Data do seguimento não pode ser vazio!")

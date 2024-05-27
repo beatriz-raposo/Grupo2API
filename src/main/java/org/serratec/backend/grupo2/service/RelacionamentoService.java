@@ -9,6 +9,7 @@ import org.serratec.backend.grupo2.model.Relacionamento;
 import org.serratec.backend.grupo2.model.RelacionamentoPK;
 import org.serratec.backend.grupo2.model.Usuario;
 import org.serratec.backend.grupo2.repository.RelacionamentoRepository;
+import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,12 @@ public class RelacionamentoService {
 	
 	@Autowired
 	private RelacionamentoRepository relacionamentoRepository;
+	
+	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	public List<RelacionamentoDTO> findAll() {
 		List<Relacionamento> relacionamentos = relacionamentoRepository.findAll();
@@ -51,4 +58,13 @@ public class RelacionamentoService {
 //		Relacionamento relacionamento = new Relacionamento(pk)	
 //	}
 
+    public List<Usuario> getSeguidor(Long seguidorId) {
+    	Usuario seguidor = usuarioService.findById(seguidorId);
+        return usuarioRepository.findSeguidores(seguidor);
+    }
+
+    public List<Usuario> getSeguindo(Long seguindoId) {
+    	Usuario seguindo = usuarioService.findById(seguindoId);
+        return usuarioRepository.findSeguindos(seguindo);
+    }
 }

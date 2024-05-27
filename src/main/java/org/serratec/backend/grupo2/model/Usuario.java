@@ -62,7 +62,7 @@ public class Usuario implements UserDetails, Serializable {
 
 	@NotBlank(message = "Preencha a senha do usuario")
 	@Column(nullable = false)
-	@Schema(description = "Email do usuario")
+	@Schema(description = "Senha do usuario")
 	private String senha;
 
 	@Column(name = "data_nascimento")

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RelacionamentoRepository extends JpaRepository<Relacionamento, RelacionamentoPK>{
-
+	
 }

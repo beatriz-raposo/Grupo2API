@@ -32,6 +32,11 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleSenhaException(SenhaException ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}	
+	
+	@ExceptionHandler(SeguidorException.class)
+	protected ResponseEntity<Object> handleSeguidorException(SeguidorException ex){
+		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
+	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

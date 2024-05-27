@@ -3,14 +3,15 @@ package org.serratec.backend.grupo2.controller;
 import java.util.List;
 
 import org.serratec.backend.grupo2.dto.ComentarioDTO;
+import org.serratec.backend.grupo2.exception.SeguidorException;
 import org.serratec.backend.grupo2.model.Comentario;
 import org.serratec.backend.grupo2.model.Postagem;
 import org.serratec.backend.grupo2.model.Usuario;
 import org.serratec.backend.grupo2.service.ComentarioService;
 import org.serratec.backend.grupo2.service.PostagemService;
+import org.serratec.backend.grupo2.service.RelacionamentoService;
 import org.serratec.backend.grupo2.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,9 @@ public class ComentarioController {
 
 	@Autowired
 	private PostagemService postagemService;
+	
+	@Autowired
+	private RelacionamentoService relacionamentoService;
 
 	@GetMapping
 	public ResponseEntity<List<ComentarioDTO>> listar() {
@@ -53,12 +57,20 @@ public class ComentarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ComentarioDTO> inserir(@Valid @RequestBody ComentarioDTO comentario) throws NotFoundException {
+	public ResponseEntity<ComentarioDTO> inserir(@Valid @RequestBody ComentarioDTO comentario) throws SeguidorException {
 		Usuario autor = usuarioService.findById(comentario.getAutorId());
 		Postagem postagem = postagemService.findById(comentario.getPostagemId());
 		usuarioService.findById(comentario.getAutorId());
-		comentarioService.inserir(autor, postagem, comentario);
-		return ResponseEntity.ok(comentario);
+		List<Usuario> seguidores = relacionamentoService.getSeguidor(postagem.getAutor().getId());
+		for(Usuario seguidor: seguidores) {
+			if(comentario.getAutorId().equals(seguidor.getId())) {
+				comentarioService.inserir(autor, postagem, comentario);
+				return ResponseEntity.ok(comentario);
+			} else {
+				throw new SeguidorException("Não está seguindo o autor!");
+			}
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@PutMapping("/{id}")
