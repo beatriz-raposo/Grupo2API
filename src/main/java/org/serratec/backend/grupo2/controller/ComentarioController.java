@@ -59,35 +59,6 @@ public class ComentarioController {
 		return ResponseEntity.ok(comentario);
 	}
 
-//    @PostMapping("/{id}")
-//    public ResponseEntity<Comentario> inserir(@PathVariable Long id, @RequestBody Comentario comentario) {
-//        Comentario inserirComentario = comentarioService.inserir(id, comentario);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(inserirComentario);
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<Comentario> criarComentario(@RequestBody Comentario comentario) {
-//    	Comentario novoComentario = comentarioService.salvarComentario(comentario);
-//        return new ResponseEntity<>(novoComentario, HttpStatus.CREATED);
-	// }
-
-//    @PostMapping
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public ResponseEntity<ComentarioDTO> inserir(@Valid @RequestBody ComentarioDTO comentariodto, @PathVariable Long id, @PathVariable Long idAutor) {
-//    	ComentarioDTO comentarioDTO = comentarioService.inserir(comentariodto, id, idAutor);
-//		
-//    	 return new ResponseEntity<>(comentarioDTO, HttpStatus.CREATED);
-//	}
-//    
-//    @PostMapping("/postagem/{postagemId}/autor/{autorId}")
-//    public ResponseEntity<Comentario> criarComentario(
-//            @PathVariable Long postagemId,
-//            @PathVariable Long autorId,
-//            @RequestBody Comentario comentario) {
-//        Comentario novoComentario = comentarioService.salvarComentario(postagemId, autorId, comentario);
-//        return new ResponseEntity<>(novoComentario, HttpStatus.CREATED);
-//    }
-
 	@PutMapping("/{id}")
 	public ResponseEntity<Comentario> atualizar(@PathVariable Long id, @RequestBody Comentario comentario) {
 		Comentario atualizarComentario = comentarioService.atualizar(id, comentario);

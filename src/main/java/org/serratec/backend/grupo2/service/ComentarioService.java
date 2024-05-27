@@ -45,28 +45,9 @@ public class ComentarioService {
 		return comentarioOpt.get();
 	}
 
-//    public Comentario inserir(@PathVariable Long id, Comentario comentario) throws NotFoundException {
-//    	 Optional<comentario> optionalcomentario = comentarioRepository.findById(id);
-//    	 if(optionalcomentario.isEmpty()) {
-//    		 throw new NotFoundException();	
-//    	 }
-//        return comentarioRepository.save(comentario);
-//    }
-
-//	public Comentario salvarComentario(Comentario comentario) throws NotFoundException{
-//		Long comentarioId = comentario.getcomentario().getId();
-//		comentario comentario = comentarioRepository.findById(comentarioId).orElseThrow(() -> new NotFoundException());
-//
-//		Long autorId = comentario.getAutor().getId();
-//		Usuario autor = usuarioRepository.findById(autorId).orElseThrow(() -> new NotFoundException());
-//
-//		comentario.setcomentario(comentario);
-//		comentario.setAutor(autor);
-//		return comentarioRepository.save(comentario);
-//	}
-
 	@Transactional
-	public ComentarioDTO inserir(Usuario autor, Postagem postagem, ComentarioDTO comentariodto) throws NotFoundException {
+	public ComentarioDTO inserir(Usuario autor, Postagem postagem, ComentarioDTO comentariodto)
+			throws NotFoundException {
 		Optional<Postagem> optionalcomentario = postagemRepository.findById(comentariodto.getPostagemId());
 		if (optionalcomentario.isEmpty()) {
 			throw new NotFoundException();
