@@ -5,12 +5,9 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.AssociationOverride;
-import jakarta.persistence.AssociationOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -20,8 +17,8 @@ import jakarta.persistence.TemporalType;
 @Table(name = "relacionamento")
 public class Relacionamento {
 	
-	@EmbeddedId
 	@JsonBackReference
+	@EmbeddedId
     private RelacionamentoPK id;
 	
 	@Column(name = "data_inicio_seguimento")
