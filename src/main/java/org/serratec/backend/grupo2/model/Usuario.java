@@ -12,9 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
@@ -22,6 +20,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -85,6 +84,12 @@ public class Usuario implements UserDetails, Serializable {
 	@JsonManagedReference
 	@Schema(description = "Usuarios seguindo")
 	private List<Relacionamento> seguindos;
+	
+	// Adicionar o campo para armazenar a foto
+    @Lob
+	@Column(name = "foto")
+	@Schema(description = "foto do usuario")
+    private byte[] foto;
 
 	public Usuario() {
 
@@ -175,6 +180,14 @@ public class Usuario implements UserDetails, Serializable {
 	public void setSeguindos(List<Relacionamento> seguindos) {
 		this.seguindos = seguindos;
 	}
+	
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
+    }
 
 	@Override
 	public int hashCode() {

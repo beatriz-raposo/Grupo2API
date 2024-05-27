@@ -1,5 +1,6 @@
 package org.serratec.backend.grupo2.service;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import io.jsonwebtoken.io.IOException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -71,10 +74,24 @@ public class UsuarioService {
 		return usuarioDTO;
 	}
 	
+    @Autowired
+    private ImageService imageService;
+
+ 
+    public void uploadProfilePicture(MultipartFile multipartFile, Long userId) throws IOException, NotFoundException, java.io.IOException {
+        Usuario usuario = findById(userId);
+
+        BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+        jpgImage = imageService.cropSquare(jpgImage);
+        jpgImage = imageService.resize(jpgImage, 200);
+
+        byte[] imageBytes = imageService.convertImageToBytes(jpgImage);
+        usuario.setFoto(imageBytes);
+
+        usuarioRepository.save(usuario);
+    }
+    
+	}
 	
 	
 	
-	
-	
-	
-}
