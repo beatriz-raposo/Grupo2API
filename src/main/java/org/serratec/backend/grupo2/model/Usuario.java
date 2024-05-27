@@ -86,6 +86,8 @@ public class Usuario implements UserDetails, Serializable {
 	private List<Relacionamento> seguindos;
 	
 	// Adicionar o campo para armazenar a foto
+	
+	@JsonManagedReference
     @Lob
 	@Column(name = "foto")
 	@Schema(description = "foto do usuario")

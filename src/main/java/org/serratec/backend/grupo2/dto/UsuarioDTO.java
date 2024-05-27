@@ -14,6 +14,8 @@ public class UsuarioDTO {
 	private String email;
 	
 	private LocalDate dataNasc;
+	
+	private String url;
 
 	public UsuarioDTO() {
 	}
@@ -74,6 +76,15 @@ public class UsuarioDTO {
 	public void setDataNasc(LocalDate dataNasc) {
 		this.dataNasc = dataNasc;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	 
+	
 }
 
