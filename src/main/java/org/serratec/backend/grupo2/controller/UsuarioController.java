@@ -86,8 +86,7 @@ public class UsuarioController {
 	@PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public UsuarioDTO inserirFoto(@RequestPart("file") MultipartFile file, @RequestPart("usuario")  Usuario usuario) 
 			throws IOException  {
-//		usuarioService.inserirFoto(usuario, file);
-		return null;
+		return usuarioService.inserirFoto(usuario, file);
 	}
     
 	@GetMapping("/{id}/foto")
