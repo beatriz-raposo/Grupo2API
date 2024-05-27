@@ -1,6 +1,5 @@
 package org.serratec.backend.grupo2.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import org.serratec.backend.grupo2.dto.ComentarioDTO;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/comentarios")
@@ -52,13 +50,13 @@ public class ComentarioController {
 		}
 	}
 
-	@PostMapping("/{autorId}/{postagemId}")
-	public ResponseEntity<ComentarioDTO> inserir(@RequestBody ComentarioDTO comentario)
-			throws NotFoundException {
-		comentarioService.inserir(comentario);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{autorId}/{postagemId}")
-				.buildAndExpand(comentario.getAutorId(),comentario.getPostagemId()).toUri();
-		return ResponseEntity.created(uri).body(comentario);
+	@PostMapping
+	public ResponseEntity<ComentarioDTO> inserir(@RequestBody ComentarioDTO comentario) throws NotFoundException {
+		Usuario autor = usuarioService.findById(comentario.getAutorId());
+		Postagem postagem = postagemService.findById(comentario.getPostagemId());
+		usuarioService.findById(comentario.getAutorId());
+		comentarioService.inserir(autor, postagem, comentario);
+		return ResponseEntity.ok(comentario);
 	}
 
 //    @PostMapping("/{id}")

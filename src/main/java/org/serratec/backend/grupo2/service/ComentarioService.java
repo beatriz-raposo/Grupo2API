@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ComentarioService {
 
@@ -23,7 +25,7 @@ public class ComentarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private PostagemRepository postagemRepository;
 
@@ -62,24 +64,27 @@ public class ComentarioService {
 //		comentario.setAutor(autor);
 //		return comentarioRepository.save(comentario);
 //	}
-	
-	 public ComentarioDTO inserir(ComentarioDTO comentariodto) throws NotFoundException {
-		 Optional<Postagem> optionalcomentario = postagemRepository.findById(comentariodto.getPostagemId());
-	    	if (optionalcomentario.isEmpty()) {
-	    		throw new NotFoundException();
-	    	}
-	    	Optional<Usuario> usuarioOpt = usuarioRepository.findById(comentariodto.getAutorId());
-	        if (usuarioOpt.isEmpty()) {
-	        	throw new NotFoundException();
-	        }
-	
-			Comentario comentario = new Comentario();
-	    	comentario.setTexto(comentariodto.getTexto());
-	    	comentario.setDataCriacao(comentariodto.getDataCriacao());
-	        comentario = comentarioRepository.save(comentario);
-	       
-	        return new ComentarioDTO(comentario);
-	    }
+
+	@Transactional
+	public ComentarioDTO inserir(Usuario autor, Postagem postagem, ComentarioDTO comentariodto) throws NotFoundException {
+		Optional<Postagem> optionalcomentario = postagemRepository.findById(comentariodto.getPostagemId());
+		if (optionalcomentario.isEmpty()) {
+			throw new NotFoundException();
+		}
+		Optional<Usuario> usuarioOpt = usuarioRepository.findById(comentariodto.getAutorId());
+		if (usuarioOpt.isEmpty()) {
+			throw new NotFoundException();
+		}
+
+		Comentario comentario = new Comentario();
+		comentario.setAutor(autor);
+		comentario.setpostagem(postagem);
+		comentario.setTexto(comentariodto.getTexto());
+		comentario.setDataCriacao(comentariodto.getDataCriacao());
+		comentario = comentarioRepository.save(comentario);
+
+		return new ComentarioDTO(comentario);
+	}
 
 	public Comentario atualizar(@PathVariable Long id, Comentario novoComentario) {
 		Optional<Comentario> optionalComentario = comentarioRepository.findById(id);
