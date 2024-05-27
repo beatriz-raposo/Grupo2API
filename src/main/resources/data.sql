@@ -12,22 +12,22 @@ BEGIN
     
     IF NOT EXISTS (SELECT * FROM postagem) THEN
         INSERT INTO postagem (conteudo, data_criacao, autor_id) VALUES 
-			(''O gato está em cima do telhado.'', ''2024-05-26'', ''17''),
-			(''A chuva cai suavemente sobre a cidade.'', ''2024-05-25'', ''18''),
-			(''O mercado de ações subiu novamente.'', ''2024-05-24'', ''19''),
-			(''Ela gosta de ler livros de ficção científica.'', ''2024-05-23'', ''20''),
-			(''Estamos planejando uma viagem para a praia.'', ''2024-05-22'', ''21''),
-			(''O jantar estará pronto em uma hora.'', ''2024-05-21'', ''22'');
+			(''O gato está em cima do telhado.'', ''2024-05-26'', ''1''),
+			(''A chuva cai suavemente sobre a cidade.'', ''2024-05-25'', ''2''),
+			(''O mercado de ações subiu novamente.'', ''2024-05-24'', ''3''),
+			(''Ela gosta de ler livros de ficção científica.'', ''2024-05-23'', ''4''),
+			(''Estamos planejando uma viagem para a praia.'', ''2024-05-22'', ''5''),
+			(''O jantar estará pronto em uma hora.'', ''2024-05-21'', ''6'');
 	END IF;
 	
 	IF NOT EXISTS (SELECT * FROM comentario) THEN
         INSERT INTO comentario (texto, data_criacao, author_id, id_postagem) VALUES 
-			(''O gato parece estar muito confortável no telhado.'', ''2024-05-26'', ''18'', ''1''),
-			(''Adoro ouvir a chuva cair, é muito relaxante.'', ''2024-05-25'', ''17'', ''2''),
-			(''É ótimo ver o mercado de ações subindo novamente.'', ''2024-05-24'', ''22'', ''3''),
-			(''Livros de ficção científica são realmente fascinantes.'', ''2024-05-23'', ''21'', ''4''),
-			(''Mal posso esperar pela nossa viagem para a praia!'', ''2024-05-22'', ''20'', ''5''),
-			(''Estou ansioso pelo jantar, aposto que será delicioso.'', ''2024-05-21'', ''19'', ''6'');
+			(''O gato parece estar muito confortável no telhado.'', ''2024-05-26'', ''1'', ''1''),
+			(''Adoro ouvir a chuva cair, é muito relaxante.'', ''2024-05-25'', ''2'', ''2''),
+			(''É ótimo ver o mercado de ações subindo novamente.'', ''2024-05-24'', ''3'', ''3''),
+			(''Livros de ficção científica são realmente fascinantes.'', ''2024-05-23'', ''4'', ''4''),
+			(''Mal posso esperar pela nossa viagem para a praia!'', ''2024-05-22'', ''5'', ''5''),
+			(''Estou ansioso pelo jantar, aposto que será delicioso.'', ''2024-05-21'', ''6'', ''6'');
 	END IF;
 	
 
