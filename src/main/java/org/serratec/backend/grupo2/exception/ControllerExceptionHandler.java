@@ -22,19 +22,19 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleEmailException(EmailException ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
-	
+
 	@ExceptionHandler(NotFoundException.class)
 	protected ResponseEntity<Void> handleEmailException(NotFoundException ex) {
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@ExceptionHandler(SenhaException.class)
 	protected ResponseEntity<Object> handleSenhaException(SenhaException ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
-	}	
-	
+	}
+
 	@ExceptionHandler(SeguidorException.class)
-	protected ResponseEntity<Object> handleSeguidorException(SeguidorException ex){
+	protected ResponseEntity<Object> handleSeguidorException(SeguidorException ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
 
@@ -52,7 +52,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return super.handleExceptionInternal(ex, erroresposta, headers, status, request);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
