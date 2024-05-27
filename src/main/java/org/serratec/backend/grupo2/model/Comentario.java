@@ -70,7 +70,7 @@ public class Comentario {
 		this.postagem = postagem;
 		this.autor = autor;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}

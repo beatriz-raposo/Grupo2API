@@ -12,22 +12,21 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-
 @Entity
 @Table(name = "relacionamento")
 public class Relacionamento {
-	
+
 	@JsonBackReference
 	@EmbeddedId
-    private RelacionamentoPK id;
-	
+	private RelacionamentoPK id;
+
 	@Column(name = "data_inicio_seguimento")
 	@Temporal(TemporalType.DATE)
 	@Schema(description = "Data inicial de seguimento")
 	private Date dataInicioSeguimento;
 
 	public Relacionamento() {
-	
+
 	}
 
 	public Relacionamento(RelacionamentoPK id, Date dataInicioSeguimento) {
@@ -54,7 +53,7 @@ public class Relacionamento {
 	public void setSeguidor(Usuario seguidor) {
 		this.id.setSeguidor(seguidor);
 	}
-	
+
 	public void setSeguindo(Usuario seguindo) {
 		this.id.setSeguidor(seguindo);
 	}

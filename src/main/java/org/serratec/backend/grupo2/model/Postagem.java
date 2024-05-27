@@ -24,42 +24,42 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Table(name = "postagem")
 public class Postagem {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_postagem")
 	@Schema(description = "Identificador unico de postagem")
 	private Long id;
-	
+
 	@NotBlank(message = "Conteudo não pode ser vazio")
 	@Size(max = 300, message = "Tamanho máximo de {max} caracteres")
 	@Column(nullable = false, length = 300)
 	@Schema(description = "Conteudo da postagem")
 	private String conteudo;
-	
+
 	@Column(name = "data_criacao")
 	@Schema(description = "Data de criação da postagem")
 	@Temporal(TemporalType.DATE)
 	private Date dataCriacao;
-	
+
 	@NotNull(message = "Autor não pode ser vazio!")
 	@ManyToOne
 	@JsonBackReference
-    @JoinColumn(name = "autor_id")
+	@JoinColumn(name = "autor_id")
 	@Schema(description = "Autor da postagem")
-    private Usuario autor;
+	private Usuario autor;
 
 	@JsonManagedReference
-    @OneToMany(mappedBy = "postagem")
-    @Schema(description = "Lista de comentarios relacionados")
-    private List<Comentario> comentarios;
+	@OneToMany(mappedBy = "postagem")
+	@Schema(description = "Lista de comentarios relacionados")
+	private List<Comentario> comentarios;
 
 	public Postagem() {
-		
+
 	}
 
 	public Postagem(Long id, String conteudo, Date dataCriacao, Usuario autor, List<Comentario> comentarios) {
@@ -127,6 +127,5 @@ public class Postagem {
 		Postagem other = (Postagem) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 
 }

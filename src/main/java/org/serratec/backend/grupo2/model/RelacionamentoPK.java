@@ -3,8 +3,6 @@ package org.serratec.backend.grupo2.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -14,20 +12,18 @@ import jakarta.persistence.ManyToOne;
 public class RelacionamentoPK implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_seguidor")
 	private Usuario seguidor;
-	
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_seguindo")
 	private Usuario seguindo;
 
 	public RelacionamentoPK() {
 	}
-	
+
 	public RelacionamentoPK(Usuario seguidor, Usuario seguindo) {
 		super();
 		this.seguidor = seguidor;
@@ -71,5 +67,4 @@ public class RelacionamentoPK implements Serializable {
 		return Objects.equals(seguidor, other.seguidor) && Objects.equals(seguindo, other.seguindo);
 	}
 
-	
 }

@@ -36,12 +36,15 @@ public class ConfigSeguranca {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).cors((cors) -> cors.configurationSource(corsConfigurationSource()))
 				.httpBasic(Customizer.withDefaults()).authorizeHttpRequests(requests -> {
-					requests.requestMatchers(HttpMethod.GET, "/login", "/postagem/**", "/postagem", "/relacionamentos/**", "/comentarios").permitAll();
-					requests.requestMatchers(HttpMethod.DELETE, "/login", "usuarios", "/postagem", "/relacionamentos", "/comentarios").permitAll();
-					requests.requestMatchers(HttpMethod.PUT, "/login", "usuarios", "/postagem", "/relacionamentos", "/comentarios").permitAll();
-					requests.requestMatchers(HttpMethod.POST, "/usuarios", "/postagem", "/relacionamentos", "/comentarios", "/comentarios/**").permitAll()
-					.anyRequest().authenticated();
-							
+					requests.requestMatchers(HttpMethod.GET, "/login", "/postagem/**", "/postagem",
+							"/relacionamentos/**", "/comentarios").permitAll();
+					requests.requestMatchers(HttpMethod.DELETE, "/login", "usuarios", "/postagem", "/relacionamentos",
+							"/comentarios").permitAll();
+					requests.requestMatchers(HttpMethod.PUT, "/login", "usuarios", "/postagem", "/relacionamentos",
+							"/comentarios").permitAll();
+					requests.requestMatchers(HttpMethod.POST, "/usuarios", "/postagem", "/relacionamentos",
+							"/comentarios", "/comentarios/**").permitAll().anyRequest().authenticated();
+
 				}).sessionManagement(session -> {
 					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 				});

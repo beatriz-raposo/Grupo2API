@@ -30,7 +30,7 @@ public class Foto {
 	private String tipo;
 
 	private String nome;
-	
+
 	@JsonBackReference("usuario-foto")
 	@OneToOne
 	@JoinColumn(name = "id_usuario")
