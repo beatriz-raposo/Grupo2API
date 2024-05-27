@@ -18,7 +18,7 @@ public class UsuarioInserirDTO {
 	@Size(max = 30, message = "Tamanho máximo de {max} caracteres")
 	@Schema(description = "Sobrenome do usuario")
 	private String sobrenome;
-	
+
 	@Email
 	@NotBlank(message = "Preencha o email do usuario")
 	@Size(max = 40, message = "Tamanho máximo de {max} caracteres")
@@ -32,7 +32,7 @@ public class UsuarioInserirDTO {
 	@NotBlank(message = "Preencha o confirma senha do usuario")
 	@Schema(description = "Confirma senha do usuario")
 	private String confirmaSenha;
-	
+
 	@Schema(description = "Data de nascimento do usuario")
 	private LocalDate dataNasc;
 

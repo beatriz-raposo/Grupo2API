@@ -10,15 +10,15 @@ import jakarta.validation.constraints.Size;
 
 public class UsuarioDTO {
 	private Long id;
-	
+
 	private String nome;
-	
+
 	private String sobrenome;
 
 	private String email;
-	
+
 	private LocalDate dataNasc;
-	
+
 	private String url;
 
 	public UsuarioDTO() {
@@ -32,7 +32,7 @@ public class UsuarioDTO {
 		this.email = email;
 		this.dataNasc = dataNasc;
 	}
-	
+
 	public UsuarioDTO(Usuario usuario) {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
@@ -88,7 +88,5 @@ public class UsuarioDTO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	 
-	
-}
 
+}

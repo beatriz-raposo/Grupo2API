@@ -12,10 +12,10 @@ public class RelacionamentoDTO {
 
 	@NotNull(message = "Id do seguidor não pode ser vazio!")
 	private Long seguidorId;
-	
+
 	@NotNull(message = "Id do seguindo não pode ser vazio!")
 	private Long seguindoId;
-	
+
 	@NotBlank(message = "Data do seguimento não pode ser vazio!")
 	@Schema(description = "Data inicial de seguimento")
 	private Date dataInicioSeguimento;
@@ -26,7 +26,7 @@ public class RelacionamentoDTO {
 		this.seguindoId = seguindoId;
 		this.dataInicioSeguimento = dataInicioSeguimento;
 	}
-	
+
 	public RelacionamentoDTO(Relacionamento relacionamento) {
 		this.seguidorId = relacionamento.getId().getSeguidor().getId();
 		this.seguindoId = relacionamento.getId().getSeguindo().getId();
@@ -56,5 +56,5 @@ public class RelacionamentoDTO {
 	public void setDataInicioSeguimento(Date dataInicioSeguimento) {
 		this.dataInicioSeguimento = dataInicioSeguimento;
 	}
-	
+
 }
