@@ -37,7 +37,7 @@ public class ComentarioController {
 
 	@Autowired
 	private PostagemService postagemService;
-	
+
 	@Autowired
 	private RelacionamentoService relacionamentoService;
 
@@ -57,13 +57,14 @@ public class ComentarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ComentarioDTO> inserir(@Valid @RequestBody ComentarioDTO comentario) throws SeguidorException {
+	public ResponseEntity<ComentarioDTO> inserir(@Valid @RequestBody ComentarioDTO comentario)
+			throws SeguidorException {
 		Usuario autor = usuarioService.findById(comentario.getAutorId());
 		Postagem postagem = postagemService.findById(comentario.getPostagemId());
 		usuarioService.findById(comentario.getAutorId());
 		List<Usuario> seguidores = relacionamentoService.getSeguidor(postagem.getAutor().getId());
-		for(Usuario seguidor: seguidores) {
-			if(comentario.getAutorId().equals(seguidor.getId())) {
+		for (Usuario seguidor : seguidores) {
+			if (comentario.getAutorId().equals(seguidor.getId())) {
 				comentarioService.inserir(autor, postagem, comentario);
 				return ResponseEntity.ok(comentario);
 			} else {

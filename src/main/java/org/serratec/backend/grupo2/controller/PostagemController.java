@@ -32,58 +32,57 @@ public class PostagemController {
 
 	@Autowired
 	private PostagemRepository postagemRepository;
-	
+
 	@Autowired
 	private PostagemService postagemService;
-	
+
 	@GetMapping("/paginas")
-    public Page<Postagem> getUsers(@RequestParam(defaultValue = "0") int page, 
-                               @RequestParam(defaultValue = "10") int size) {
-        return postagemService.findPaginated(page, size);
-    }
-	
+	public Page<Postagem> getUsers(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		return postagemService.findPaginated(page, size);
+	}
+
 	@GetMapping
 	public ResponseEntity<List<PostagemDTO>> listar() {
 		return ResponseEntity.ok(postagemService.findAll());
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> buscar(@PathVariable Long id) {
-		Optional<Postagem> postagemOpt =  postagemRepository.findById(id);
+		Optional<Postagem> postagemOpt = postagemRepository.findById(id);
 		if (postagemOpt.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(postagemOpt.get());
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<PostagemDTO> inserir(@Valid @RequestBody PostagemDTO postagemDTO) {
 		PostagemDTO postagemDTO1 = postagemService.inserir(postagemDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postagemDTO1.getId()).toUri();
-		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postagemDTO1.getId())
+				.toUri();
+
 		return ResponseEntity.created(uri).body(postagemDTO1);
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<Postagem> alterar(@PathVariable Long id, @Valid @RequestBody Postagem postagem) {
-		if (! postagemRepository.existsById(id)) {
+		if (!postagemRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
 		postagem.setId(id);
-		postagem =  postagemRepository.save(postagem);
+		postagem = postagemRepository.save(postagem);
 		return ResponseEntity.ok(postagem);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 		if (!postagemRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
-		 postagemRepository.deleteById(id);
+		postagemRepository.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
-	
-	
-	
+
 }

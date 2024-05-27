@@ -28,62 +28,69 @@ import jakarta.validation.Valid;
 @RequestMapping("/relacionamentos")
 public class RelacionamentoController {
 
-    @Autowired
-    private RelacionamentoService relacionamentoService;
-    
-    @Autowired
-    private UsuarioService usuarioService;
-    
-    @GetMapping
-    public ResponseEntity<List<RelacionamentoDTO>> getAllRelacionamentos() {
-        return ResponseEntity.ok(relacionamentoService.findAll());
-    }
+	@Autowired
+	private RelacionamentoService relacionamentoService;
 
-    @GetMapping("/{seguidorId}/{seguindoId}")
-    public ResponseEntity<Relacionamento> getRelacionamento(@PathVariable Long seguidorId, @PathVariable Long seguindoId) throws NotFoundException {
-    	Usuario seguidor = usuarioService.findById(seguidorId);
-    	Usuario seguindo = usuarioService.findById(seguindoId);
-    	Optional<Relacionamento> relacionamento = relacionamentoService.findById(new RelacionamentoPK(seguidor, seguindo));
-        if (relacionamento.isPresent()) {
-            return new ResponseEntity<>(relacionamento.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    
-    @PostMapping
-    public ResponseEntity<RelacionamentoDTO> createRelacionamento(@Valid @RequestBody RelacionamentoDTO relacionamento) throws NotFoundException {
+	@Autowired
+	private UsuarioService usuarioService;
+
+	@GetMapping
+	public ResponseEntity<List<RelacionamentoDTO>> getAllRelacionamentos() {
+		return ResponseEntity.ok(relacionamentoService.findAll());
+	}
+
+	@GetMapping("/{seguidorId}/{seguindoId}")
+	public ResponseEntity<Relacionamento> getRelacionamento(@PathVariable Long seguidorId,
+			@PathVariable Long seguindoId) throws NotFoundException {
+		Usuario seguidor = usuarioService.findById(seguidorId);
+		Usuario seguindo = usuarioService.findById(seguindoId);
+		Optional<Relacionamento> relacionamento = relacionamentoService
+				.findById(new RelacionamentoPK(seguidor, seguindo));
+		if (relacionamento.isPresent()) {
+			return new ResponseEntity<>(relacionamento.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PostMapping
+	public ResponseEntity<RelacionamentoDTO> createRelacionamento(@Valid @RequestBody RelacionamentoDTO relacionamento)
+			throws NotFoundException {
 		Usuario seguidor = usuarioService.findById(relacionamento.getSeguidorId());
 		Usuario seguindo = usuarioService.findById(relacionamento.getSeguindoId());
-        relacionamentoService.inserir(seguidor, seguindo, relacionamento.getDataInicioSeguimento());
-        return ResponseEntity.ok(relacionamento);
-    }
+		relacionamentoService.inserir(seguidor, seguindo, relacionamento.getDataInicioSeguimento());
+		return ResponseEntity.ok(relacionamento);
+	}
 
-    @PutMapping("/{seguidorId}/{seguindoId}")
-    public ResponseEntity<Relacionamento> updateRelacionamento(@PathVariable Long seguidorId, @PathVariable Long seguindoId, @RequestBody Relacionamento relacionamentoDetails) throws NotFoundException {
-    	Usuario seguidor = usuarioService.findById(seguidorId);
-    	Usuario seguindo = usuarioService.findById(seguindoId);
-    	Optional<Relacionamento> relacionamento = relacionamentoService.findById(new RelacionamentoPK(seguidor, seguindo));
-        if (relacionamento.isPresent()) {
-            Relacionamento existingRelacionamento = relacionamento.get();
-            existingRelacionamento.setDataInicioSeguimento(relacionamentoDetails.getDataInicioSeguimento());
-            Relacionamento updatedRelacionamento = relacionamentoService.save(existingRelacionamento);
-            return new ResponseEntity<>(updatedRelacionamento, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+	@PutMapping("/{seguidorId}/{seguindoId}")
+	public ResponseEntity<Relacionamento> updateRelacionamento(@PathVariable Long seguidorId,
+			@PathVariable Long seguindoId, @RequestBody Relacionamento relacionamentoDetails) throws NotFoundException {
+		Usuario seguidor = usuarioService.findById(seguidorId);
+		Usuario seguindo = usuarioService.findById(seguindoId);
+		Optional<Relacionamento> relacionamento = relacionamentoService
+				.findById(new RelacionamentoPK(seguidor, seguindo));
+		if (relacionamento.isPresent()) {
+			Relacionamento existingRelacionamento = relacionamento.get();
+			existingRelacionamento.setDataInicioSeguimento(relacionamentoDetails.getDataInicioSeguimento());
+			Relacionamento updatedRelacionamento = relacionamentoService.save(existingRelacionamento);
+			return new ResponseEntity<>(updatedRelacionamento, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
-    @DeleteMapping("/{seguidorId}/{seguindoId}")
-    public ResponseEntity<Void> deleteRelacionamento(@PathVariable Long seguidorId, @PathVariable Long seguindoId) throws NotFoundException {
-    	Usuario seguidor = usuarioService.findById(seguidorId);
-    	Usuario seguindo = usuarioService.findById(seguindoId);
-        Optional<Relacionamento> relacionamento = relacionamentoService.findById(new RelacionamentoPK(seguidor, seguindo));
-        if (relacionamento.isPresent()) {
-            relacionamentoService.deleteById(new RelacionamentoPK(seguidor, seguindo));
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+	@DeleteMapping("/{seguidorId}/{seguindoId}")
+	public ResponseEntity<Void> deleteRelacionamento(@PathVariable Long seguidorId, @PathVariable Long seguindoId)
+			throws NotFoundException {
+		Usuario seguidor = usuarioService.findById(seguidorId);
+		Usuario seguindo = usuarioService.findById(seguindoId);
+		Optional<Relacionamento> relacionamento = relacionamentoService
+				.findById(new RelacionamentoPK(seguidor, seguindo));
+		if (relacionamento.isPresent()) {
+			relacionamentoService.deleteById(new RelacionamentoPK(seguidor, seguindo));
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }
