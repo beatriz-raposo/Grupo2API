@@ -3,7 +3,7 @@ package org.serratec.backend.grupo2.dto;
 public class LoginDTO {
 
 	private String username;
-	
+
 	private String password;
 
 	public String getUsername() {
