@@ -30,6 +30,17 @@ BEGIN
 			(''Estou ansioso pelo jantar, aposto que será delicioso.'', ''2024-05-21'', ''6'', ''6'');
 	END IF;
 	
+	IF NOT EXISTS (SELECT * FROM relacionamento) THEN
+
+        INSERT INTO relacionamento (id_seguidor, id_seguindo, data_inicio_seguimento) VALUES 
+            (''2'', ''1'', ''2024-05-27''),
+            (''3'', ''1'', ''2024-05-27''),
+                (''5'', ''3'', ''2024-05-29''),
+                (''1'', ''3'', ''2024-05-28''),
+                (''4'', ''1'', ''2024-05-28'');
+
+    END IF;
+	
 
 END;
 '
