@@ -8,7 +8,7 @@ public class ErroResposta {
 	private String titulo;
 	private LocalDateTime dataHora;
 	private List<String> erro;
-	
+
 	public ErroResposta(Integer status, String titulo, LocalDateTime dataHora, List<String> erro) {
 		super();
 		this.status = status;
@@ -48,5 +48,5 @@ public class ErroResposta {
 	public void setErro(List<String> erro) {
 		this.erro = erro;
 	}
-	
+
 }
