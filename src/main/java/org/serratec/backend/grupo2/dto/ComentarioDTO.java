@@ -10,23 +10,23 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ComentarioDTO {
-	
+
 	@NotNull(message = "Postagem não pode ser vazia!")
 	@Schema(description = "Postagens relacionadas")
 	private Long postagemId;
-	
+
 	@NotNull(message = "Autor não pode ser vazio!")
 	@Schema(description = "Autor do comentario")
 	private Long autorId;
-	
+
 	@NotBlank(message = "Texto não pode ser vazio")
 	@Size(max = 300, message = "Tamanho máximo de {max} caracteres")
 	@Schema(description = "Texto do comentario")
 	private String texto;
-	
+
 	@Schema(description = "Data de criação do comentario")
 	private Date dataCriacao;
-	
+
 	public ComentarioDTO(Long postagemId, Long autorId, String texto, Date dataCriacao) {
 		super();
 		this.postagemId = postagemId;
@@ -34,14 +34,13 @@ public class ComentarioDTO {
 		this.texto = texto;
 		this.dataCriacao = dataCriacao;
 	}
-	
+
 	public ComentarioDTO(Comentario comentario) {
 		this.postagemId = comentario.getpostagem().getId();
 		this.autorId = comentario.getAutor().getId();
 		this.texto = comentario.getTexto();
 		this.dataCriacao = comentario.getDataCriacao();
 	}
-	
 
 	public Long getPostagemId() {
 		return postagemId;
@@ -74,7 +73,5 @@ public class ComentarioDTO {
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
-	
 
 }
