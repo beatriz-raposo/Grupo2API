@@ -1,8 +1,10 @@
 package org.serratec.backend.grupo2.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.PostagemDTO;
 import org.serratec.backend.grupo2.model.Postagem;
 import org.serratec.backend.grupo2.repository.PostagemRepository;
 import org.serratec.backend.grupo2.service.PostagemService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 
@@ -40,8 +43,8 @@ public class PostagemController {
     }
 	
 	@GetMapping
-	public ResponseEntity<List<Postagem>> listar() {
-		return ResponseEntity.ok(postagemRepository.findAll());
+	public ResponseEntity<List<PostagemDTO>> listar() {
+		return ResponseEntity.ok(postagemService.findAll());
 	}
 	
 	@GetMapping("/{id}")
@@ -55,8 +58,11 @@ public class PostagemController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Postagem inserir(@Valid @RequestBody Postagem postagem) {
-		return  postagemRepository.save(postagem);
+	public ResponseEntity<PostagemDTO> inserir(@Valid @RequestBody PostagemDTO postagemDTO) {
+		PostagemDTO postagemDTO1 = postagemService.inserir(postagemDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(postagemDTO1.getId()).toUri();
+		
+		return ResponseEntity.created(uri).body(postagemDTO1);
 	}
 	
 	@PutMapping("/{id}")

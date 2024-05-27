@@ -3,6 +3,9 @@ package org.serratec.backend.grupo2.model;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,9 +22,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "comentario")
 public class Comentario {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,29 +34,38 @@ public class Comentario {
 	@Schema(description = "Identificador unico de comentario")
 	private Long id;
 	
+	
 	@NotBlank(message = "Texto não pode ser vazio")
 	@Size(max = 300, message = "Tamanho máximo de {max} caracteres")
 	@Column(nullable = false, length = 300)
 	@Schema(description = "Texto do comentario")
 	private String texto;
 	
+	
 	@Column(name = "data_criacao")
 	@Schema(description = "Data de criação do comentario")
 	@Temporal(TemporalType.DATE)
 	private Date dataCriacao;
 	
+	@JsonBackReference
 	@NotNull(message = "Postagem não pode ser vazia!")
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_postagem")
 	@Schema(description = "Postagens relacionadas")
     private Postagem postagem;
 
+	@JsonBackReference
 	@NotNull(message = "Autor não pode ser vazio!")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     @Schema(description = "Autor do comentario")
     private Usuario autor;
 	
+
+	public Comentario() {
+	
+		
+	}
 
 	public Comentario(Long id, String texto, Date dataCriacao, Postagem postagem, Usuario autor) {
 		super();

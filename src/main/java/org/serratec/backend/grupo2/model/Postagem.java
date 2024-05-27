@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
@@ -22,6 +24,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "postagem")
 public class Postagem {
@@ -50,6 +53,7 @@ public class Postagem {
 	@Schema(description = "Autor da postagem")
     private Usuario autor;
 
+	@JsonManagedReference
     @OneToMany(mappedBy = "postagem")
     @Schema(description = "Lista de comentarios relacionados")
     private List<Comentario> comentarios;
