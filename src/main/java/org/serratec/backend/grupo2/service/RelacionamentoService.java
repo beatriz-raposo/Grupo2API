@@ -17,19 +17,19 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class RelacionamentoService {
-	
+
 	@Autowired
 	private RelacionamentoRepository relacionamentoRepository;
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
 	public List<RelacionamentoDTO> findAll() {
 		List<Relacionamento> relacionamentos = relacionamentoRepository.findAll();
-		List<RelacionamentoDTO>relacionamentoDTO = relacionamentos.stream().map(RelacionamentoDTO::new).toList();
+		List<RelacionamentoDTO> relacionamentoDTO = relacionamentos.stream().map(RelacionamentoDTO::new).toList();
 		return relacionamentoDTO;
 	}
 
@@ -46,25 +46,19 @@ public class RelacionamentoService {
 	}
 
 	@Transactional
-	public Relacionamento inserir(Usuario seguidor, Usuario seguindo, Date dataInicioSeguimento){
+	public Relacionamento inserir(Usuario seguidor, Usuario seguindo, Date dataInicioSeguimento) {
 		RelacionamentoPK pk = new RelacionamentoPK(seguidor, seguindo);
 		Relacionamento relacionamento = new Relacionamento(pk, dataInicioSeguimento);
-        return relacionamentoRepository.save(relacionamento);
+		return relacionamentoRepository.save(relacionamento);
 	}
 
-//	public adicionarRelacionamento(Long seguidor, Long seguindo) {
-//		
-//		RelacionamentoPK pk = new RelacionamentoPK(seguidor, seguindo)
-//		Relacionamento relacionamento = new Relacionamento(pk)	
-//	}
+	public List<Usuario> getSeguidor(Long seguidorId) {
+		Usuario seguidor = usuarioService.findById(seguidorId);
+		return usuarioRepository.findSeguidores(seguidor);
+	}
 
-    public List<Usuario> getSeguidor(Long seguidorId) {
-    	Usuario seguidor = usuarioService.findById(seguidorId);
-        return usuarioRepository.findSeguidores(seguidor);
-    }
-
-    public List<Usuario> getSeguindo(Long seguindoId) {
-    	Usuario seguindo = usuarioService.findById(seguindoId);
-        return usuarioRepository.findSeguindos(seguindo);
-    }
+	public List<Usuario> getSeguindo(Long seguindoId) {
+		Usuario seguindo = usuarioService.findById(seguindoId);
+		return usuarioRepository.findSeguindos(seguindo);
+	}
 }
