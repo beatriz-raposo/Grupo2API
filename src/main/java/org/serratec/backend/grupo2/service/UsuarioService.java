@@ -23,31 +23,26 @@ import jakarta.transaction.Transactional;
 @Service
 public class UsuarioService {
 
-	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
 
-//	@Autowired
-//	private MailConfig mailConfig;
-	
-	//metodo listar tudo
+	// metodo listar tudo
 	public List<UsuarioDTO> findAll() {
-		 List<Usuario> usuarios = usuarioRepository.findAll();
-		 
-		 List<UsuarioDTO> usuarioDTO = usuarios.stream().map(UsuarioDTO::new).toList();
-		 
-		 usuarios.forEach(f -> {
-			 usuarioDTO.add(adicionarImagemUrl(f));
-		 });
-		 
-		 return usuarioDTO;
+		List<Usuario> usuarios = usuarioRepository.findAll();
+
+		List<UsuarioDTO> usuarioDTO = usuarios.stream().map(UsuarioDTO::new).toList();
+
+		usuarios.forEach(f -> {
+			usuarioDTO.add(adicionarImagemUrl(f));
+		});
+
+		return usuarioDTO;
 	}
-	
-	//metodo buscar por id	
+
+	// metodo buscar por id
 	public Usuario findById(Long id) throws org.serratec.backend.grupo2.exception.NotFoundException {
 		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
 		if (usuarioOpt.isEmpty()) {
@@ -55,7 +50,7 @@ public class UsuarioService {
 		}
 		return usuarioOpt.get();
 	}
-	
+
 //	//metodo cadastrar usuario
 	@Transactional
 	public UsuarioDTO inserir(UsuarioInserirDTO usuarioInserirDTO) throws EmailException, SenhaException {
@@ -66,62 +61,44 @@ public class UsuarioService {
 		if (usuarioBd != null) {
 			throw new EmailException("Email ja existente");
 		}
-		
+
 		Usuario usuario = new Usuario();
 		usuario.setNome(usuarioInserirDTO.getNome());
 		usuario.setSobrenome(usuarioInserirDTO.getSobrenome());
 		usuario.setEmail(usuarioInserirDTO.getEmail());
 		usuario.setDataNasc(usuarioInserirDTO.getDataNasc());
 		usuario.setSenha(encoder.encode(usuarioInserirDTO.getSenha()));
-		
+
 		usuario = usuarioRepository.save(usuario);
-				
+
 		UsuarioDTO usuarioDTO = new UsuarioDTO(usuario);
 		return usuarioDTO;
 	}
-	
-    @Autowired
-    private ImageService imageService;
- 
-//    public void uploadProfilePicture(MultipartFile multipartFile, Long userId) throws IOException, NotFoundException {
-//        Usuario usuario = findById(userId);
-//
-//        BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
-//        jpgImage = imageService.cropSquare(jpgImage);
-//        jpgImage = imageService.resize(jpgImage, 200);
-//
-//        byte[] imageBytes = imageService.convertImageToBytes(jpgImage);
-//        usuario.setFoto(imageBytes);
-//
-//        usuarioRepository.save(usuario);
-//    }
-    
-    public UsuarioDTO adicionarImagemUrl(Usuario usuario) {
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.path("/usuarios/{id}/foto")
-				.buildAndExpand(usuario.getId())
-				.toUri();
-		
+
+	@Autowired
+	private ImageService imageService;
+
+	public UsuarioDTO adicionarImagemUrl(Usuario usuario) {
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/usuarios/{id}/foto")
+				.buildAndExpand(usuario.getId()).toUri();
+
 		UsuarioDTO dto = new UsuarioDTO();
 		dto.setNome(usuario.getNome());
 		dto.setDataNasc(usuario.getDataNasc());
 		dto.setSobrenome(usuario.getSobrenome());
-		dto.setUrl(uri.toString());	
+		dto.setUrl(uri.toString());
 		return dto;
 	}
-    
-    public UsuarioDTO inserirFoto(Usuario usuario, MultipartFile file) throws IOException {
-    	usuario = usuarioRepository.save(usuario);
-    	imageService.inserir(usuario, file);
+
+	public UsuarioDTO inserirFoto(Usuario usuario, MultipartFile file) throws IOException {
+		usuario = usuarioRepository.save(usuario);
+		imageService.inserir(usuario, file);
 		return adicionarImagemUrl(usuario);
 	}
-    
-    public UsuarioDTO buscar(Long id) {
-    	Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-    	return adicionarImagemUrl(usuarioOpt.get());
-    }
+
+	public UsuarioDTO buscar(Long id) {
+		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+		return adicionarImagemUrl(usuarioOpt.get());
 	}
-	
-	
-	
+
+}
