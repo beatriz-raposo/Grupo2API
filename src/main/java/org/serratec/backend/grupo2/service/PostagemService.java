@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.PostagemAlterarDTO;
 import org.serratec.backend.grupo2.dto.PostagemDTO;
 import org.serratec.backend.grupo2.exception.NotFoundException;
 import org.serratec.backend.grupo2.model.Postagem;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PostagemService {
@@ -48,6 +51,7 @@ public class PostagemService {
 		return postagemOpt.get();
 	}
 
+	@Transactional
 	public PostagemDTO inserir(PostagemDTO postagemdto) throws NotFoundException {
 		Optional<Usuario> byId = usuarioRepository.findById(postagemdto.getIdUsuario());
 		if (byId.isEmpty()) {
@@ -62,16 +66,20 @@ public class PostagemService {
 		return postagemDTO;
 	}
 
-	public PostagemDTO update(Long id, PostagemDTO postagemdto) {
-		Optional<Postagem> postagemOpt = postagemRepository.findById(id);
-		if (postagemOpt.isPresent()) {
-			Postagem postagem = postagemOpt.get();
-			postagem.setConteudo(postagemdto.getConteudo());
-			postagem = postagemRepository.save(postagem);
-			return new PostagemDTO(postagem);
-		} else {
-			throw new NotFoundException();
-		}
+	@Transactional
+	public Postagem alterar(PostagemAlterarDTO postagemAlterar, Postagem postagemTemp) {
+		Postagem postagemObt = new Postagem();
+		
+		postagemObt.setId(postagemAlterar.getId());
+		postagemObt.setConteudo(postagemAlterar.getConteudo());
+		postagemObt.setAutor(postagemTemp.getAutor());
+		postagemObt.setDataCriacao(postagemTemp.getDataCriacao());
+		postagemObt.setComentarios(postagemTemp.getComentarios());
+		
+		postagemObt = postagemRepository.save(postagemObt);
+		
+		Postagem postagem = new Postagem(postagemObt);
+		return postagem;
 	}
 
 	public void deleteById(Long id) {

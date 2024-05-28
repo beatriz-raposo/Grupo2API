@@ -70,6 +70,14 @@ public class Postagem {
 		this.autor = autor;
 		this.comentarios = comentarios;
 	}
+	
+	public Postagem(Postagem postagem) {
+		this.id = postagem.getId();
+		this.conteudo = postagem.getConteudo();
+		this.dataCriacao = postagem.getDataCriacao();
+		this.autor = postagem.getAutor();
+		this.comentarios = postagem.getComentarios();
+	}
 
 	public Long getId() {
 		return id;

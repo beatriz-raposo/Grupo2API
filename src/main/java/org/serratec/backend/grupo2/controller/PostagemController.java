@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.PostagemAlterarDTO;
 import org.serratec.backend.grupo2.dto.PostagemDTO;
 import org.serratec.backend.grupo2.model.Postagem;
 import org.serratec.backend.grupo2.repository.PostagemRepository;
@@ -67,12 +68,13 @@ public class PostagemController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Postagem> alterar(@PathVariable Long id, @Valid @RequestBody Postagem postagem) {
+	public ResponseEntity<Postagem> alterar(@PathVariable Long id, @Valid @RequestBody PostagemAlterarDTO postagemAlterar) {
 		if (!postagemRepository.existsById(id)) {
 			return ResponseEntity.notFound().build();
 		}
-		postagem.setId(id);
-		postagem = postagemRepository.save(postagem);
+		Postagem postagemTemp = postagemService.findById(id);
+		postagemAlterar.setId(id);
+		Postagem postagem = postagemService.alterar(postagemAlterar, postagemTemp);
 		return ResponseEntity.ok(postagem);
 	}
 

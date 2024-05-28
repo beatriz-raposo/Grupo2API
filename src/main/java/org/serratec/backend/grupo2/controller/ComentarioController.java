@@ -2,11 +2,13 @@ package org.serratec.backend.grupo2.controller;
 
 import java.util.List;
 
+import org.serratec.backend.grupo2.dto.ComentarioAlterarDTO;
 import org.serratec.backend.grupo2.dto.ComentarioDTO;
 import org.serratec.backend.grupo2.exception.SeguidorException;
 import org.serratec.backend.grupo2.model.Comentario;
 import org.serratec.backend.grupo2.model.Postagem;
 import org.serratec.backend.grupo2.model.Usuario;
+import org.serratec.backend.grupo2.repository.ComentarioRepository;
 import org.serratec.backend.grupo2.service.ComentarioService;
 import org.serratec.backend.grupo2.service.PostagemService;
 import org.serratec.backend.grupo2.service.RelacionamentoService;
@@ -31,6 +33,9 @@ public class ComentarioController {
 
 	@Autowired
 	private ComentarioService comentarioService;
+	
+	@Autowired
+	private ComentarioRepository comentarioRepository;
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -41,6 +46,7 @@ public class ComentarioController {
 	@Autowired
 	private RelacionamentoService relacionamentoService;
 
+	
 	@GetMapping
 	public ResponseEntity<List<ComentarioDTO>> listar() {
 		return ResponseEntity.ok(comentarioService.listar());
@@ -75,9 +81,15 @@ public class ComentarioController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Comentario> atualizar(@PathVariable Long id, @RequestBody Comentario comentario) {
-		Comentario atualizarComentario = comentarioService.atualizar(id, comentario);
-		return ResponseEntity.ok().body(atualizarComentario);
+	public ResponseEntity<Comentario> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioAlterarDTO comentarioAlterar) {
+		if (!comentarioRepository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		Comentario comentarioTemp = comentarioService.buscar(id);
+		comentarioAlterar.setId(id);
+		Comentario comentario = comentarioService.alterar(comentarioAlterar, comentarioTemp);
+		
+		return ResponseEntity.ok(comentario);
 	}
 
 	@DeleteMapping("/{id}")

@@ -71,6 +71,14 @@ public class Comentario {
 		this.autor = autor;
 	}
 
+	public Comentario(Comentario comentario) {
+		this.id = comentario.getId();
+		this.texto = comentario.getTexto();
+		this.dataCriacao = comentario.getDataCriacao();
+		this.postagem = comentario.getpostagem();
+		this.autor = comentario.getAutor();
+	}
+	
 	public Long getId() {
 		return id;
 	}

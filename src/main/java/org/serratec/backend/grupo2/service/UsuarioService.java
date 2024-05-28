@@ -1,10 +1,9 @@
 package org.serratec.backend.grupo2.service;
 
-import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.UsuarioAlterarDTO;
 import org.serratec.backend.grupo2.dto.UsuarioDTO;
 import org.serratec.backend.grupo2.dto.UsuarioInserirDTO;
 import org.serratec.backend.grupo2.exception.EmailException;
@@ -15,8 +14,6 @@ import org.serratec.backend.grupo2.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.transaction.Transactional;
 
@@ -40,15 +37,15 @@ public class UsuarioService {
 		 
 		 List<UsuarioDTO> usuarioDTO = usuarios.stream().map(UsuarioDTO::new).toList();
 		 
-		 usuarios.forEach(f -> {
-			 usuarioDTO.add(adicionarImagemUrl(f));
-		 });
-		 
+//		 usuarios.forEach(f -> {
+//			 usuarioDTO.add(adicionarImagemUrl(f));
+//		 });
+//		 
 		 return usuarioDTO;
 	}
 	
 	//metodo buscar por id	
-	public Usuario findById(Long id) throws org.serratec.backend.grupo2.exception.NotFoundException {
+	public Usuario findById(Long id) throws NotFoundException {
 		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
 		if (usuarioOpt.isEmpty()) {
 			throw new NotFoundException();
@@ -80,8 +77,28 @@ public class UsuarioService {
 		return usuarioDTO;
 	}
 	
-    @Autowired
-    private ImageService imageService;
+	@Transactional
+	public UsuarioDTO alterar(UsuarioAlterarDTO usuario, Usuario usuarioTemp) throws SenhaException {
+		Usuario usuarioObt = new Usuario();
+		
+		usuarioObt.setId(usuario.getId());
+		usuarioObt.setDataNasc(usuario.getDataNasc());
+		usuarioObt.setEmail(usuario.getEmail());
+		usuarioObt.setNome(usuario.getNome());
+		usuarioObt.setSobrenome(usuario.getSobrenome());
+		usuarioObt.setSenha(encoder.encode(usuario.getSenha()));
+		usuarioObt.setPostagens(usuarioTemp.getPostagens());
+		usuarioObt.setSeguidores(usuarioTemp.getSeguidores());
+		usuarioObt.setSeguindos(usuarioTemp.getSeguindos());
+		
+		usuarioObt = usuarioRepository.save(usuarioObt);
+		
+		UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioObt);
+		return usuarioDTO;
+	}
+	
+//    @Autowired
+//    private ImageService imageService;
  
 //    public void uploadProfilePicture(MultipartFile multipartFile, Long userId) throws IOException, NotFoundException {
 //        Usuario usuario = findById(userId);
@@ -96,31 +113,31 @@ public class UsuarioService {
 //        usuarioRepository.save(usuario);
 //    }
     
-    public UsuarioDTO adicionarImagemUrl(Usuario usuario) {
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentContextPath()
-				.path("/usuarios/{id}/foto")
-				.buildAndExpand(usuario.getId())
-				.toUri();
-		
-		UsuarioDTO dto = new UsuarioDTO();
-		dto.setNome(usuario.getNome());
-		dto.setDataNasc(usuario.getDataNasc());
-		dto.setSobrenome(usuario.getSobrenome());
-		dto.setUrl(uri.toString());	
-		return dto;
-	}
+//    public UsuarioDTO adicionarImagemUrl(Usuario usuario) {
+//		URI uri = ServletUriComponentsBuilder
+//				.fromCurrentContextPath()
+//				.path("/usuarios/{id}/foto")
+//				.buildAndExpand(usuario.getId())
+//				.toUri();
+//		
+//		UsuarioDTO dto = new UsuarioDTO();
+//		dto.setNome(usuario.getNome());
+//		dto.setDataNasc(usuario.getDataNasc());
+//		dto.setSobrenome(usuario.getSobrenome());
+//		dto.setUrl(uri.toString());	
+//		return dto;
+//	}
     
-    public UsuarioDTO inserirFoto(Usuario usuario, MultipartFile file) throws IOException {
-    	usuario = usuarioRepository.save(usuario);
-    	imageService.inserir(usuario, file);
-		return adicionarImagemUrl(usuario);
-	}
-    
-    public UsuarioDTO buscar(Long id) {
-    	Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-    	return adicionarImagemUrl(usuarioOpt.get());
-    }
+//    public UsuarioDTO inserirFoto(Usuario usuario, MultipartFile file) throws IOException {
+//    	usuario = usuarioRepository.save(usuario);
+//    	imageService.inserir(usuario, file);
+//		return adicionarImagemUrl(usuario);
+//	}
+//    
+//    public UsuarioDTO buscar(Long id) {
+//    	Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+//    	return adicionarImagemUrl(usuarioOpt.get());
+//    }
 	}
 	
 	

@@ -3,6 +3,7 @@ package org.serratec.backend.grupo2.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.grupo2.dto.ComentarioAlterarDTO;
 import org.serratec.backend.grupo2.dto.ComentarioDTO;
 import org.serratec.backend.grupo2.exception.NotFoundException;
 import org.serratec.backend.grupo2.model.Comentario;
@@ -67,17 +68,22 @@ public class ComentarioService {
 		return new ComentarioDTO(comentario);
 	}
 
-	public Comentario atualizar(@PathVariable Long id, Comentario novoComentario) {
-		Optional<Comentario> optionalComentario = comentarioRepository.findById(id);
-		if (optionalComentario.isPresent()) {
-			novoComentario.setId(id);
-			return (Comentario) comentarioRepository.save(novoComentario);
-		} else {
-
-			return null;
-		}
+	@Transactional
+	public Comentario alterar(ComentarioAlterarDTO comentarioAlterar, Comentario comentarioTemp) {
+		Comentario comentarioObt = new Comentario();
+		
+		comentarioObt.setId(comentarioAlterar.getId());
+		comentarioObt.setTexto(comentarioAlterar.getTexto());
+		comentarioObt.setAutor(comentarioTemp.getAutor());
+		comentarioObt.setDataCriacao(comentarioTemp.getDataCriacao());
+		comentarioObt.setpostagem(comentarioTemp.getpostagem());
+		
+		comentarioObt = comentarioRepository.save(comentarioObt);
+		
+		Comentario comentario = new Comentario(comentarioObt);
+		return comentario;
 	}
-
+	
 	public Comentario delete(Long id) {
 		comentarioRepository.deleteById(id);
 		return null;

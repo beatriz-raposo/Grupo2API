@@ -87,11 +87,11 @@ public class Usuario implements UserDetails, Serializable {
 
 	// Adicionar o campo para armazenar a foto
 
-	@JsonManagedReference
-	@Lob
-	@Column(name = "foto")
-	@Schema(description = "foto do usuario")
-	private byte[] foto;
+//	@JsonManagedReference
+//	@Lob
+//	@Column(name = "foto")
+//	@Schema(description = "foto do usuario")
+//	private byte[] foto;
 
 	public Usuario() {
 
@@ -183,13 +183,13 @@ public class Usuario implements UserDetails, Serializable {
 		this.seguindos = seguindos;
 	}
 
-	public byte[] getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte[] foto) {
-		this.foto = foto;
-	}
+//	public byte[] getFoto() {
+//		return foto;
+//	}
+//
+//	public void setFoto(byte[] foto) {
+//		this.foto = foto;
+//	}
 
 	@Override
 	public int hashCode() {
