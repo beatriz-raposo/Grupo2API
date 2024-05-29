@@ -16,7 +16,7 @@ public class RelacionamentoDTO {
 	@NotNull(message = "Id do seguindo não pode ser vazio!")
 	private Long seguindoId;
 
-	@NotBlank(message = "Data do seguimento não pode ser vazio!")
+	//@NotBlank(message = "Data do seguimento não pode ser vazio!")
 	@Schema(description = "Data inicial de seguimento")
 	private Date dataInicioSeguimento;
 
